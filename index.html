@@ -21,7 +21,7 @@ button{font:inherit;cursor:pointer}
 img{display:block;max-width:100%}
 
 /* ---------- shared ---------- */
-.scene{position:fixed;inset:0;display:none;overflow:hidden;user-select:none;-webkit-user-select:none}
+.scene{position:fixed;inset:0;display:none;overflow:hidden;user-select:none;-webkit-user-select:none;z-index:30}
 .scene.active{display:block}
 #mute{position:fixed;top:10px;right:10px;z-index:100;width:42px;height:42px;border-radius:50%;
   border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.45);color:#fff;font-size:20px;display:none}
@@ -94,13 +94,14 @@ img{display:block;max-width:100%}
 #game.active{display:flex}
 .hud{height:54px;flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 64px 0 14px;font-weight:800;font-size:18px}
 .hud .cnt{font-size:20px}
-#hearts{letter-spacing:2px}
+#hearts{letter-spacing:2px;white-space:nowrap}
+.hud .cnt{white-space:nowrap}
 #board{flex:1 1 auto;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;touch-action:none}
 #cv{display:block;border-radius:6px}
 #board.shake{animation:shake .45s}
 @keyframes shake{20%{transform:translate(-8px,4px)}40%{transform:translate(7px,-5px)}60%{transform:translate(-5px,3px)}80%{transform:translate(4px,-2px)}}
 #toast{position:absolute;top:6px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.2);
-  padding:6px 14px;border-radius:999px;font-weight:800;font-size:15px;white-space:nowrap;opacity:0;transition:opacity .3s;pointer-events:none;z-index:3}
+  padding:6px 14px;border-radius:16px;font-weight:800;font-size:15px;width:max-content;max-width:92%;text-align:center;opacity:0;transition:opacity .3s;pointer-events:none;z-index:3}
 #toast.show{opacity:1}
 .dpad{flex:0 0 auto;display:none;grid-template-columns:repeat(3,62px);grid-template-rows:repeat(2,54px);gap:8px;justify-content:center;padding:8px 0 calc(14px + env(safe-area-inset-bottom))}
 .dpad button{border:1px solid rgba(255,40,60,.5);background:rgba(255,30,45,.14);color:#fff;border-radius:14px;font-size:26px;touch-action:none}
@@ -204,6 +205,43 @@ h2.sec small{display:block;font-family:'Nunito';font-weight:700;font-size:15px;l
 .finale .names{font-family:'Caveat',cursive;font-size:clamp(30px,9vw,42px);color:#ffb3b9;margin:18px 0 34px}
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
 .reveal.in{opacity:1;transform:none}
+/* ---------- Stranger Things atmosphere ---------- */
+#spores{position:fixed;inset:0;pointer-events:none;z-index:0}
+#card .wrap{position:relative;z-index:1}
+#card .hero{z-index:1}
+#card .st{animation:neon 7s infinite}
+@keyframes neon{0%,90%,100%{opacity:1}91%{opacity:.35}92%{opacity:1}94%{opacity:.55}95%{opacity:1}}
+.garland{position:absolute;top:0;left:0;right:0;height:46px;display:flex;justify-content:space-around;align-items:flex-start;padding:0 2vw;pointer-events:none}
+.garland::before{content:"";position:absolute;left:0;right:0;top:8px;height:22px;border-bottom:2px solid #1d1a14;border-radius:0 0 50% 50%/0 0 100% 100%}
+.garland i{position:relative;margin-top:22px;width:11px;height:16px;border-radius:50% 50% 45% 45%;background:var(--c);opacity:.3;animation:blink 2.4s infinite}
+.garland i:nth-child(6n+1){--c:#ff3b3b;animation-delay:.1s}.garland i:nth-child(6n+2){--c:#ffd23b;animation-delay:.9s}
+.garland i:nth-child(6n+3){--c:#3bff6a;animation-delay:1.7s}.garland i:nth-child(6n+4){--c:#3bb4ff;animation-delay:.5s}
+.garland i:nth-child(6n+5){--c:#ff6ad5;animation-delay:1.3s}.garland i:nth-child(6n+6){--c:#ff8c2b;animation-delay:2s}
+.garland i:nth-child(odd){margin-top:28px}
+@keyframes blink{0%,45%{opacity:1;box-shadow:0 0 10px 3px var(--c)}55%,100%{opacity:.25;box-shadow:none}}
+body.flicker #card{animation:flick .12s steps(2) infinite}
+@keyframes flick{50%{filter:brightness(.15) sepia(1) hue-rotate(-50deg) saturate(4)}}
+#rescued{display:none;font-weight:800;font-size:20px;color:#ffd23b;margin:-14px 0 26px}
+.finale-btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.btn.ghost{background:transparent;border:2px solid var(--red);box-shadow:none}
+
+#heroes{background:radial-gradient(ellipse at 50% 100%,#3a0a14 0%,#0a0710 60%,#050408 100%)}
+#heroes .bubble{position:absolute;top:13vh;left:50%;margin-left:calc(min(88vw,420px)/-2);z-index:3}
+.bubble.down-tail::before{top:auto;bottom:-12px;border-top:12px solid #fff;border-bottom:0}
+#kids{position:absolute;left:50%;bottom:0;width:min(98vw,760px);transform:translate(-50%,110%);transition:transform .9s cubic-bezier(.2,1.3,.4,1)}
+#heroes.in #kids{transform:translate(-50%,0)}
+
+#win2{background:radial-gradient(circle at 50% 45%,#1d2a36,#07060b 62%);justify-content:flex-start;padding-top:9vh}
+#win2 .title{font-size:clamp(34px,10vw,64px);margin-bottom:2vh}
+#win2 .duo{display:flex;align-items:flex-end;justify-content:center;gap:2vw;height:42vh}
+#win2 .duo img{height:100%;width:auto;max-width:46vw;object-fit:contain;transform:scale(0);transition:transform .6s cubic-bezier(.3,1.6,.5,1)}
+#win2.go .duo img{transform:scale(1)}
+#win2.go #tease{animation:tease .5s .6s infinite ease-in-out;transform-origin:50% 100%}
+#win2.go #hero-nastya{height:85%;animation:rock2 .4s .6s infinite ease-in-out;transform-origin:50% 100%}
+@keyframes rock2{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+@keyframes tease{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg) translateY(-6px)}}
+#win2 .bubble{position:relative;margin:2vh auto 2vh}
+#win2 .bubble::before{display:none}
 #lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;display:none;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
 #lightbox.show{display:flex}
 #lightbox img{max-height:92vh;max-width:96vw;object-fit:contain;border-radius:6px}
@@ -231,7 +269,7 @@ h2.sec small{display:block;font-family:'Nunito';font-weight:700;font-size:15px;l
 <!-- ============ GAME ============ -->
 <section id="game" class="scene">
   <div class="hud">
-    <div class="cnt">🕯️ <span id="got">0</span>/12</div>
+    <div class="cnt" id="hud-left"></div>
     <div id="hearts">❤️❤️❤️</div>
   </div>
   <div id="board">
@@ -249,7 +287,7 @@ h2.sec small{display:block;font-family:'Nunito';font-weight:700;font-size:15px;l
   <div class="overlay" id="fail">
     <h2>😱 Демогоргон тебя поймал!</h2>
     <p id="fail-text"></p>
-    <div class="help"><img src="img/cut/spidey.png" alt=""><span>Человек-паук: «Держись, Настя! Я подсвечу тебе дорогу к свечам!»</span></div>
+    <div class="help"><img src="img/cut/spidey.png" alt=""><span id="fail-help"></span></div>
     <button class="btn" id="retry">Попробовать ещё раз</button>
   </div>
 
@@ -261,13 +299,32 @@ h2.sec small{display:block;font-family:'Nunito';font-weight:700;font-size:15px;l
     </div>
     <div class="bubble" id="bubble2"><p>Ты справилась! Держись крепче — летим за подарком! 🕸️</p></div>
   </div>
+
+  <div class="overlay" id="win2">
+    <div class="title st">ИЛЬЯ СПАСЁН!</div>
+    <div class="duo">
+      <img id="hero-nastya" src="img/cut/rocker.png" alt="Настя">
+      <img id="tease" src="img/cut/ilya-tease.png" onerror="this.onerror=null;this.src='img/cut/ilya.png'" alt="Илья">
+    </div>
+    <div class="bubble show" id="bubble4"><p>Илья: «Ну что, демогоргоны, съели? 😜»<br>Настя — настоящая героиня Хокинса! 🏅</p></div>
+    <button class="btn" id="win2-back">К открытке ❤️</button>
+  </div>
+</section>
+
+<!-- ============ HEROES (level 2 intro) ============ -->
+<section id="heroes" class="scene">
+  <div class="garland"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="bubble down-tail" id="bubble3"><p></p><button class="btn"></button></div>
+  <img id="kids" src="img/cut/kids.png" alt="Лукас, Дастин, Одиннадцать, Майк и Уилл">
 </section>
 
 <!-- ============ CARD ============ -->
 <main id="card">
   <canvas id="confetti"></canvas>
+  <canvas id="spores"></canvas>
 
   <header class="hero">
+    <div class="garland"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <div class="pre">С днём рождения</div>
     <div class="bar"></div>
     <h1 class="st">НАСТЯ</h1>
@@ -324,7 +381,7 @@ h2.sec small{display:block;font-family:'Nunito';font-weight:700;font-size:15px;l
             <div class="ev-label">УЛИКА № 1</div>
             <p class="ev-text">Помнишь, как ты бегала с палкой, представляя, что ты злая ведьма? 🧙‍♀️ В тот момент я сама задумалась, с кем я живу под одной крышей: настолько круто ты вжилась в роль)</p>
           </div>
-          <div class="ev-media" style="--r:2deg"><img loading="lazy" src="img/witch.jpg" alt=""></div>
+          <div class="ev-media" style="--r:2deg"><video src="video/witch.mp4" poster="video/witch.jpg" controls playsinline preload="none"></video></div>
         </div>
         <div class="evidence">
           <div>
@@ -365,11 +422,15 @@ h2.sec small{display:block;font-family:'Nunito';font-weight:700;font-size:15px;l
       </div>
     </section>
 
-    <section class="finale reveal">
+    <section class="finale reveal" id="finale">
       <div class="big st">Мы тебя любим</div>
       <p>С днём рождения, Настя! Пусть 12 будет самым классным сезоном.</p>
       <div class="names">Денис и Кристина ❤️</div>
-      <button class="btn" id="replay">Сыграть ещё раз 🕷️</button>
+      <div id="rescued">🏅 Илья спасён! Настя — герой Хокинса</div>
+      <div class="finale-btns">
+        <button class="btn" id="save-ilya">Спасти Илью 🔦</button>
+        <button class="btn ghost" id="replay">Сыграть ещё раз 🕷️</button>
+      </div>
     </section>
   </div>
 </main>
@@ -576,7 +637,8 @@ async function intro(){
 $('#skip button').addEventListener('click',e=>{ e.stopPropagation(); Snd.init(); showCard(); });
 
 /* =================== GAME =================== */
-const MAP=[
+const LEVELS={
+  candles:{ mode:'candles', map:[
 "#######E#######",
 "#C....#D#....C#",
 "#.###.#.#.###.#",
@@ -593,26 +655,52 @@ const MAP=[
 "##..#.#.#.#..##",
 "#.....#.#.....#",
 "#C.#.......#.C#",
-"###############"];
-const COLS=15, ROWS=MAP.length;
+"###############"]},
+  rescue:{ mode:'rescue', hides:[[1,1],[13,1],[1,8],[13,8],[7,3]], map:[
+"###############",
+"#...#.....#...#",
+"#.#.#.###.#.#.#",
+"#.#...#.#...#.#",
+"#.###.#.#.###.#",
+"#.....D...D...#",
+"###.#.###.#.###",
+"#...#.....#...#",
+"#.#.#.#.#.#.#.#",
+"#.#...#.#...#.#",
+"#.###.#.#.###.#",
+"#.............#",
+"#.#.###.###.#.#",
+"#.#...#.#...#.#",
+"#.###.#.#.###.#",
+"#......P......#",
+"#######E#######"]}
+};
 const DIRS={u:{x:0,y:-1},d:{x:0,y:1},l:{x:-1,y:0},r:{x:1,y:0}};
 const imgHead=new Image(); imgHead.src='img/cut/head.png';
 const imgDemo=new Image(); imgDemo.src='img/cut/demo.png';
+const imgIlya=new Image(); imgIlya.src='img/cut/ilya.png';
 
 const Game = (() => {
   const cv=$('#cv'), ctx=cv.getContext('2d'), board=$('#board');
-  let T=24, dpr=1, wallLayer=null;
-  let P0,D0,E; const candleStart=[];
-  MAP.forEach((row,y)=>[...row].forEach((c,x)=>{ if(c==='P')P0={x,y}; if(c==='D')D0={x,y}; if(c==='E')E={x,y}; if(c==='C')candleStart.push(x+','+y); }));
-  let candles=new Set(), got=0, lives=3, fails=0, state='idle', demoWait=0, time=0, last=0, raf=0, flashT=0, nextLightning=4;
+  let T=24, dpr=1, wallLayer=null, darkLayer=null;
+  let L, MAP, COLS, ROWS, P0, E, D0s, candleStart;
+  let candles=new Set(), got=0, lives=3, state='idle', demoWait=0, time=0, last=0, raf=0, flashT=0, nextLightning=4, hudT=0;
+  const fails={candles:0,rescue:0};
+  let pl, dms=[], ilya=null, trail=[];
   const spores=[]; for(let i=0;i<45;i++) spores.push({x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.01,vy:-Math.random()*.012-.003,r:Math.random()*1.6+.5,a:Math.random()*.5+.15});
   const mk=(p,speed)=>({fx:p.x,fy:p.y,tx:p.x,ty:p.y,t:0,dir:null,next:null,face:1,speed});
-  let pl, dm;
+  const F=()=>fails[L.mode];
 
+  function load(key){
+    L=LEVELS[key]; MAP=L.map; COLS=MAP[0].length; ROWS=MAP.length; D0s=[]; candleStart=[];
+    MAP.forEach((row,y)=>[...row].forEach((c,x)=>{ if(c==='P')P0={x,y}; if(c==='D')D0s.push({x,y}); if(c==='E')E={x,y}; if(c==='C')candleStart.push(x+','+y); }));
+  }
   const isWall=(x,y)=>x<0||y<0||x>=COLS||y>=ROWS||MAP[y][x]==='#';
-  function passable(x,y,who){ if(isWall(x,y)) return false; if(MAP[y][x]==='E') return who==='p' && got===12; return true; }
+  const exitOpen=()=> L.mode==='candles' ? got===12 : !!(ilya&&ilya.found);
+  function passable(x,y,who){ if(isWall(x,y)) return false; if(MAP[y][x]==='E') return who==='p' && exitOpen(); return true; }
   const pos=e=>({x:e.fx+(e.tx-e.fx)*e.t, y:e.fy+(e.ty-e.fy)*e.t});
   const moving=e=>e.fx!==e.tx||e.fy!==e.ty;
+  const tileOf=e=>e.t<.5?{x:e.fx,y:e.fy}:{x:e.tx,y:e.ty};
 
   function bfs(sx,sy,isTarget,who){
     const prev=new Map(), q=[[sx,sy]], key=(x,y)=>x+','+y; prev.set(key(sx,sy),null);
@@ -627,12 +715,12 @@ const Game = (() => {
     dpr=Math.min(window.devicePixelRatio||1,2);
     cv.width=COLS*T*dpr; cv.height=ROWS*T*dpr; cv.style.width=COLS*T+'px'; cv.style.height=ROWS*T+'px';
     buildWalls();
+    darkLayer=document.createElement('canvas'); darkLayer.width=cv.width; darkLayer.height=cv.height;
   }
   function buildWalls(){
     wallLayer=document.createElement('canvas'); wallLayer.width=cv.width; wallLayer.height=cv.height;
     const g=wallLayer.getContext('2d'); g.scale(dpr,dpr);
     g.fillStyle='#0c0910'; g.fillRect(0,0,COLS*T,ROWS*T);
-    // faint vines on floor
     g.strokeStyle='rgba(120,20,40,.18)'; g.lineWidth=1;
     for(let i=0;i<40;i++){ g.beginPath(); let x=Math.random()*COLS*T, y=Math.random()*ROWS*T; g.moveTo(x,y);
       for(let k=0;k<4;k++){ x+=(Math.random()-.5)*T*1.5; y+=(Math.random()-.5)*T*1.5; g.lineTo(x,y);} g.stroke(); }
@@ -651,16 +739,34 @@ const Game = (() => {
 
   function setNext(k){ if(!pl) return; pl.next=DIRS[k]; }
   function toast(t,ms=1600){ const el=$('#toast'); el.textContent=t; el.classList.add('show'); clearTimeout(toast.h); toast.h=setTimeout(()=>el.classList.remove('show'),ms); }
-  function hud(){ $('#got').textContent=got; $('#hearts').textContent='❤️'.repeat(lives)+'🖤'.repeat(3-lives); }
-  const demoSpeed=()=>Math.min(4.6,(3.2+0.09*got)*Math.pow(.85,fails));
+  function hud(){
+    let left;
+    if(L.mode==='candles') left='🕯️ '+got+'/12';
+    else if(ilya.found) left='🧒 Веди к выходу ⬇️';
+    else { const p=tileOf(pl), path=bfs(p.x,p.y,(x,y)=>x===ilya.x&&y===ilya.y,'p'), d=path?path.length-1:99;
+      left = d<=3 ? '🔥 Горячо!' : d<=8 ? '🙂 Тепло' : '❄️ Холодно'; }
+    $('#hud-left').textContent=left; $('#hearts').textContent='❤️'.repeat(lives)+'🖤'.repeat(3-lives);
+  }
+  function demoSpeed(){
+    if(L.mode==='candles') return Math.min(4.6,(3.2+0.09*got)*Math.pow(.85,F()));
+    return (ilya&&ilya.found?3.4:3.0)*Math.pow(.85,F());
+  }
 
-  function resetPositions(){ pl=mk(P0,5.2); dm=mk(D0,demoSpeed()); demoWait=2.2; }
+  function resetPositions(){
+    pl=mk(P0,5.2); dms=D0s.map(d=>mk(d,demoSpeed())); demoWait=2.2; trail=[];
+    if(ilya){ ilya.found=false; ilya.px=ilya.x; ilya.py=ilya.y; }
+  }
   async function countdown(){
     state='count'; const ov=$('#count'), sp=ov.querySelector('span'); ov.classList.add('show');
-    for(const s of ['3','2','1','БЕГИ!']){ sp.textContent=s; sp.style.fontSize = s.length>1?'72px':''; sp.style.animation='none'; void sp.offsetWidth; sp.style.animation=''; Snd.ping(s.length>1?4:0); await wait(700); }
+    for(const s of ['3','2','1', L.mode==='candles'?'БЕГИ!':'ИЩИ!']){ sp.textContent=s; sp.style.fontSize = s.length>1?'72px':''; sp.style.animation='none'; void sp.offsetWidth; sp.style.animation=''; Snd.ping(s.length>1?4:0); await wait(700); }
     ov.classList.remove('show'); state='play';
   }
-  function newRun(){ candles=new Set(candleStart); got=0; lives=3; hud(); resetPositions(); }
+  function newRun(){
+    lives=3; got=0;
+    if(L.mode==='candles'){ candles=new Set(candleStart); ilya=null; }
+    else { candles=new Set(); const h=L.hides[Math.floor(Math.random()*L.hides.length)]; ilya={x:h[0],y:h[1],px:h[0],py:h[1],found:false}; }
+    resetPositions(); hud();
+  }
 
   function step(e,who,dt){
     const opp=d=>e.dir&&d&&d.x===-e.dir.x&&d.y===-e.dir.y;
@@ -669,17 +775,23 @@ const Game = (() => {
       e.t+=e.speed*dt;
       if(e.t<1) return;
       const left=e.t-1; e.fx=e.tx; e.fy=e.ty; e.t=0;
-      arrive(e,who);
+      if(who==='p') arrive(e);
       if(state!=='play') return;
       choose(e,who); if(moving(e)) e.t=Math.min(left,.99);
     } else choose(e,who);
   }
   function choose(e,who){
     if(who==='d'){
-      const ptx = pl.t<.5?pl.fx:pl.tx, pty = pl.t<.5?pl.fy:pl.ty;
-      let d=null; const path=bfs(e.fx,e.fy,(x,y)=>x===ptx&&y===pty,'d');
-      if(path&&path.length>1) d={x:path[1][0]-e.fx,y:path[1][1]-e.fy};
-      if(Math.random()< .1+.07*fails){ const opts=Object.values(DIRS).filter(o=>passable(e.fx+o.x,e.fy+o.y,'d')&&!(e.dir&&o.x===-e.dir.x&&o.y===-e.dir.y)); if(opts.length) d=opts[Math.floor(Math.random()*opts.length)]; }
+      const pt=tileOf(pl);
+      let d=null; const path=bfs(e.fx,e.fy,(x,y)=>x===pt.x&&y===pt.y,'d');
+      const chase = L.mode==='candles' || (path && path.length-1 <= (ilya.found?9:6));
+      if(chase && path && path.length>1) d={x:path[1][0]-e.fx,y:path[1][1]-e.fy};
+      const randomness = L.mode==='candles' ? .1+.07*F() : (chase ? .15+.08*F() : 1);
+      if(Math.random()<randomness){
+        let opts=Object.values(DIRS).filter(o=>passable(e.fx+o.x,e.fy+o.y,'d')&&!(e.dir&&o.x===-e.dir.x&&o.y===-e.dir.y));
+        if(!opts.length) opts=Object.values(DIRS).filter(o=>passable(e.fx+o.x,e.fy+o.y,'d'));
+        if(opts.length) d=opts[Math.floor(Math.random()*opts.length)];
+      }
       if(d){ e.dir=d; e.tx=e.fx+d.x; e.ty=e.fy+d.y; if(d.x) e.face=d.x; }
       return;
     }
@@ -687,32 +799,44 @@ const Game = (() => {
     if(e.dir&&passable(e.fx+e.dir.x,e.fy+e.dir.y,'p')){ e.tx=e.fx+e.dir.x; e.ty=e.fy+e.dir.y; if(e.dir.x) e.face=e.dir.x; }
     else { e.tx=e.fx; e.ty=e.fy; }
   }
-  function arrive(e,who){
-    if(who!=='p') return;
+  function arrive(e){
     const k=e.fx+','+e.fy;
-    if(candles.has(k)){ candles.delete(k); got++; hud(); Snd.ping(got); dm.speed=demoSpeed();
+    if(candles.has(k)){ candles.delete(k); got++; hud(); Snd.ping(got); dms.forEach(d=>d.speed=demoSpeed());
       if(got===12){ toast('Все 12 свечей! Выход открыт — беги наверх! ⬆️',3500); } else toast('🕯️ '+got+' из 12'); }
-    if(e.fx===E.x&&e.fy===E.y) win();
+    if(e.fx===E.x&&e.fy===E.y) (L.mode==='candles'?winCandles:winRescue)();
+  }
+  function foundIlya(){
+    ilya.found=true; trail=[]; Snd.ping(6); setTimeout(()=>Snd.ping(9),150);
+    dms.forEach(d=>d.speed=demoSpeed()); hud();
+    toast('Нашла Илью! 🎉 Теперь выведи его к выходу внизу! ⬇️',3500);
   }
 
   async function caught(){
     state='caught'; Snd.growl(); lives--; hud(); flashT=1;
     board.classList.remove('shake'); void board.offsetWidth; board.classList.add('shake');
     if(navigator.vibrate) try{navigator.vibrate(200);}catch(e){}
+    const hadIlya = ilya && ilya.found;
     await wait(1100);
     if(lives<=0){ return fail(); }
-    resetPositions(); toast('Осторожно! Осталось жизней: '+lives); await countdown();
+    resetPositions(); hud();
+    toast(hadIlya ? 'Демогоргон утащил Илью обратно! Ты знаешь, где он 💪' : 'Осторожно! Осталось жизней: '+lives, 2600);
+    await countdown();
   }
   function fail(){
-    fails++; state='fail'; Snd.stopMusic();
-    const txt = fails===1 ? 'Не сдавайся! Демогоргон тоже устал — теперь он будет медленнее.'
-              : fails===2 ? 'Он стал ещё медленнее! У тебя точно получится!'
+    fails[L.mode]++; state='fail'; Snd.stopMusic(); const n=F();
+    let txt;
+    if(L.mode==='candles') txt = n===1 ? 'Не сдавайся! Демогоргон тоже устал — теперь он будет медленнее.'
+              : n===2 ? 'Он стал ещё медленнее! У тебя точно получится!'
               : 'Демогоргон уже еле ползает. А Человек-паук теперь подсказывает дорогу!';
-    $('#fail-text').textContent=txt; $('#fail').classList.toggle('hint',fails>=3); $('#fail').classList.add('show');
+    else txt = n===1 ? 'Илья всё ещё ждёт! Демогоргоны устали и стали медленнее.'
+              : 'Демогоргоны еле ползают, а фонарик стал ярче. Человек-паук подсветит дорогу к Илье!';
+    const hint = L.mode==='candles' ? n>=3 : n>=2;
+    $('#fail-help').textContent = L.mode==='candles' ? 'Человек-паук: «Держись, Настя! Я подсвечу тебе дорогу к свечам!»' : 'Человек-паук: «Я подсвечу тебе дорогу к Илье!»';
+    $('#fail-text').textContent=txt; $('#fail').classList.toggle('hint',hint); $('#fail').classList.add('show');
   }
   $('#retry').addEventListener('click',async()=>{ $('#fail').classList.remove('show'); newRun(); Snd.startMusic(true); await countdown(); });
 
-  async function win(){
+  async function winCandles(){
     state='win'; store.set('nastya12-won','1'); Snd.riff();
     const w=$('#win'); w.classList.add('show');
     const rocker=$('#rocker'); await wait(50); rocker.classList.add('show');
@@ -730,22 +854,35 @@ const Game = (() => {
     await wait(1700);
     stop(); showCard();
   }
+  async function winRescue(){
+    state='win'; store.set('nastya12-ilya','1'); Snd.riff();
+    $('#win2').classList.add('show');
+    await wait(60); $('#win2').classList.add('go');
+  }
 
+  function drawDemo(c,e,alpha){
+    const dp=pos(e), dh=T*2, dw=dh*(imgDemo.naturalWidth/imgDemo.naturalHeight||.62);
+    c.save(); c.globalAlpha=alpha; c.translate(dp.x*T+T/2+(demoWait>0?Math.sin(time*50)*1.5:0), dp.y*T+T/2); if(e.face<0) c.scale(-1,1);
+    c.shadowColor='rgba(255,0,40,.9)'; c.shadowBlur=T*.5; if(imgDemo.complete) c.drawImage(imgDemo,-dw/2,-dh*.62,dw,dh); c.restore();
+  }
   function draw(){
     const c=ctx; c.setTransform(dpr,0,0,dpr,0,0);
     c.drawImage(wallLayer,0,0,COLS*T,ROWS*T);
-    // spores
     c.fillStyle='#fff';
     spores.forEach(s=>{ c.globalAlpha=s.a; c.beginPath(); c.arc(s.x*COLS*T,s.y*ROWS*T,s.r,0,7); c.fill(); }); c.globalAlpha=1;
     // exit
     const ex=E.x*T, ey=E.y*T;
-    if(got===12){ const p=.6+.4*Math.sin(time*6); c.save(); c.shadowColor='#fff6b0'; c.shadowBlur=T*p; c.fillStyle=`rgba(255,250,200,${.6+.4*p})`; c.fillRect(ex+2,ey,T-4,T); c.restore();
-      c.fillStyle='#3a2a00'; c.font=`bold ${T*.6}px Nunito`; c.textAlign='center'; c.textBaseline='middle'; c.fillText('⬆',ex+T/2,ey+T/2+Math.sin(time*8)*2); }
+    if(exitOpen()){ const p=.6+.4*Math.sin(time*6); c.save(); c.shadowColor='#fff6b0'; c.shadowBlur=T*p; c.fillStyle=`rgba(255,250,200,${.6+.4*p})`; c.fillRect(ex+2,ey,T-4,T); c.restore();
+      c.fillStyle='#3a2a00'; c.font=`bold ${T*.6}px Nunito`; c.textAlign='center'; c.textBaseline='middle'; c.fillText(E.y===0?'⬆':'⬇',ex+T/2,ey+T/2+Math.sin(time*8)*2); }
     else { c.fillStyle='#2a0a10'; c.fillRect(ex,ey,T,T); c.strokeStyle='#ff2a3d'; c.lineWidth=2; for(let i=1;i<4;i++){ c.beginPath(); c.moveTo(ex+i*T/4,ey); c.lineTo(ex+i*T/4,ey+T); c.stroke(); } }
     // hint path
-    if(fails>=3 && state==='play'){
-      const sx=pl.t<.5?pl.fx:pl.tx, sy=pl.t<.5?pl.fy:pl.ty;
-      const path=bfs(sx,sy,(x,y)=> got===12 ? (x===E.x&&y===E.y) : candles.has(x+','+y),'p');
+    const hintOn = L.mode==='candles' ? F()>=3 : F()>=2;
+    if(hintOn && state==='play'){
+      const s=tileOf(pl);
+      const target = L.mode==='candles'
+        ? (got===12 ? (x,y)=>x===E.x&&y===E.y : (x,y)=>candles.has(x+','+y))
+        : (ilya.found ? (x,y)=>x===E.x&&y===E.y : (x,y)=>x===ilya.x&&y===ilya.y);
+      const path=bfs(s.x,s.y,target,'p');
       if(path){ c.fillStyle='#7fe7ff'; path.forEach(([x,y],i)=>{ if(!i) return; c.globalAlpha=.35+.35*Math.sin(time*6-i*.6); c.beginPath(); c.arc(x*T+T/2,y*T+T/2,T*.12,0,7); c.fill(); }); c.globalAlpha=1; }
     }
     // candles
@@ -756,16 +893,37 @@ const Game = (() => {
       const fl=1+.18*Math.sin(time*14+ci); c.save(); c.shadowColor='#ffb020'; c.shadowBlur=T*.6;
       c.fillStyle='#ffcf40'; c.beginPath(); c.ellipse(cx,cy-T*.2,T*.09*fl,T*.15*fl,0,0,7); c.fill(); c.restore();
       c.fillStyle='#fff7d0'; c.beginPath(); c.ellipse(cx,cy-T*.18,T*.04,T*.07,0,0,7); c.fill(); });
-    // demogorgon
-    const dp=pos(dm), dh=T*2, dw=dh*(imgDemo.naturalWidth/imgDemo.naturalHeight||.62);
-    c.save(); c.translate(dp.x*T+T/2+(demoWait>0?Math.sin(time*50)*1.5:0), dp.y*T+T/2); if(dm.face<0) c.scale(-1,1);
-    c.shadowColor='rgba(255,0,40,.9)'; c.shadowBlur=T*.5; if(imgDemo.complete) c.drawImage(imgDemo,-dw/2,-dh*.62,dw,dh); c.restore();
-    // player
+    // Ilya
+    if(ilya){
+      const ih=T*1.55, iw=ih*(imgIlya.naturalWidth/imgIlya.naturalHeight||.76);
+      const shake = ilya.found ? 0 : Math.sin(time*60)*T*.06;
+      const bob = ilya.found ? Math.sin(time*12)*T*.04 : 0;
+      c.save(); c.translate(ilya.px*T+T/2+shake, ilya.py*T+T/2+bob);
+      if(imgIlya.complete) c.drawImage(imgIlya,-iw/2,-ih*.6,iw,ih); c.restore();
+      if(!ilya.found){ c.font=`${T*.55}px sans-serif`; c.textAlign='center'; c.fillText('💧',ilya.px*T+T*.95,ilya.py*T+T*.1+((time*2)%1)*T*.4); }
+    }
+    // demogorgons + player
+    dms.forEach(d=>drawDemo(c,d,1));
     const pp=pos(pl), r=T*.62, bob=moving(pl)?Math.sin(time*14)*T*.05:0;
     c.save(); c.translate(pp.x*T+T/2, pp.y*T+T/2+bob); if(pl.face<0) c.scale(-1,1);
     c.shadowColor='rgba(255,180,80,.9)'; c.shadowBlur=T*.4; c.fillStyle='#ff9a3c'; c.beginPath(); c.arc(0,0,r+2,0,7); c.fill(); c.shadowBlur=0;
     c.beginPath(); c.arc(0,0,r,0,7); c.clip(); if(imgHead.complete) c.drawImage(imgHead,-r,-r,r*2,r*2); c.restore();
-    // red flash / lightning
+    // darkness + flashlight
+    if(L.mode==='rescue'){
+      const g=darkLayer.getContext('2d'); g.setTransform(dpr,0,0,dpr,0,0); g.globalCompositeOperation='source-over';
+      g.clearRect(0,0,COLS*T,ROWS*T); g.fillStyle='rgba(2,1,4,.9)'; g.fillRect(0,0,COLS*T,ROWS*T);
+      g.globalCompositeOperation='destination-out';
+      const R=T*((F()>=2?4:2.9) + Math.sin(time*23)*.06 + (Math.random()<.02?-.5:0));
+      const cx=pp.x*T+T/2, cy=pp.y*T+T/2, grd=g.createRadialGradient(cx,cy,R*.35,cx,cy,R);
+      grd.addColorStop(0,'rgba(0,0,0,1)'); grd.addColorStop(1,'rgba(0,0,0,0)');
+      g.fillStyle=grd; g.beginPath(); g.arc(cx,cy,R,0,7); g.fill();
+      // the exit glows through the dark once Ilya is found
+      if(exitOpen()){ const eg=g.createRadialGradient(ex+T/2,ey+T/2,0,ex+T/2,ey+T/2,T*1.4); eg.addColorStop(0,'rgba(0,0,0,.9)'); eg.addColorStop(1,'rgba(0,0,0,0)'); g.fillStyle=eg; g.beginPath(); g.arc(ex+T/2,ey+T/2,T*1.4,0,7); g.fill(); }
+      c.drawImage(darkLayer,0,0,COLS*T,ROWS*T);
+      // glowing eyes of the demogorgons are always visible
+      dms.forEach(d=>{ const p=pos(d), x=p.x*T+T/2, y=p.y*T+T/2-T*.75; c.save(); c.fillStyle='#ff1a2e'; c.shadowColor='#ff0020'; c.shadowBlur=T*.5;
+        c.beginPath(); c.arc(x-T*.12,y,T*.07,0,7); c.arc(x+T*.12,y,T*.07,0,7); c.fill(); c.restore(); });
+    }
     if(flashT>0){ c.fillStyle=`rgba(255,0,30,${flashT*.45})`; c.fillRect(0,0,COLS*T,ROWS*T); }
   }
 
@@ -774,19 +932,26 @@ const Game = (() => {
     const dt=Math.min(.05,(ts-last)/1000||0); last=ts; time+=dt;
     spores.forEach(s=>{ s.x+=s.vx*dt*3; s.y+=s.vy*dt*3; if(s.y<0){s.y=1;s.x=Math.random();} if(s.x<0)s.x=1; if(s.x>1)s.x=0; });
     flashT=Math.max(0,flashT-dt*1.5);
-    nextLightning-=dt; if(nextLightning<0){ flashT=Math.max(flashT,.35); nextLightning=5+Math.random()*7; }
+    nextLightning-=dt; if(nextLightning<0){ flashT=Math.max(flashT,L.mode==='rescue'?.15:.35); nextLightning=5+Math.random()*7; }
     if(state==='play'){
       step(pl,'p',dt);
       if(state==='play'){
-        if(demoWait>0) demoWait-=dt; else step(dm,'d',dt);
-        const a=pos(pl), b=pos(dm); if(Math.hypot(a.x-b.x,a.y-b.y)<.62) caught();
+        const a=pos(pl);
+        if(ilya){
+          if(!ilya.found && Math.hypot(a.x-ilya.x,a.y-ilya.y)<.7) foundIlya();
+          if(ilya.found){ trail.push({t:time,x:a.x,y:a.y}); while(trail.length>2&&trail[1].t<time-.3) trail.shift();
+            const tgt=trail.find(p=>p.t>=time-.2)||trail[0]; if(tgt){ ilya.px=tgt.x; ilya.py=tgt.y; } }
+          hudT-=dt; if(hudT<0){ hud(); hudT=.3; }
+        }
+        if(demoWait>0) demoWait-=dt; else dms.forEach(d=>step(d,'d',dt));
+        for(const d of dms){ const b=pos(d);
+          if(Math.hypot(a.x-b.x,a.y-b.y)<.62 || (ilya&&ilya.found&&Math.hypot(ilya.px-b.x,ilya.py-b.y)<.55)){ caught(); break; } }
       }
     }
     draw();
   }
-  function stop(){ cancelAnimationFrame(raf); }
+  function stop(){ cancelAnimationFrame(raf); state='idle'; }
 
-  // input
   const KEY={ArrowUp:'u',ArrowDown:'d',ArrowLeft:'l',ArrowRight:'r',w:'u',s:'d',a:'l',d:'r',W:'u',S:'d',A:'l',D:'r','ц':'u','ы':'d','ф':'l','в':'r'};
   window.addEventListener('keydown',e=>{ const k=KEY[e.key]; if(k&&$('#game').classList.contains('active')){ e.preventDefault(); setNext(k); } });
   document.querySelectorAll('.dpad button').forEach(b=>b.addEventListener('pointerdown',e=>{ e.preventDefault(); setNext(b.dataset.d); }));
@@ -795,18 +960,56 @@ const Game = (() => {
   board.addEventListener('touchmove',e=>{ e.preventDefault(); if(sx===null) return; const t=e.touches[0], dx=t.clientX-sx, dy=t.clientY-sy;
     if(Math.hypot(dx,dy)>22){ setNext(Math.abs(dx)>Math.abs(dy)?(dx>0?'r':'l'):(dy>0?'d':'u')); sx=t.clientX; sy=t.clientY; } },{passive:false});
   board.addEventListener('touchend',()=>{ sx=sy=null; });
-  window.addEventListener('resize',()=>{ if($('#game').classList.contains('active')) resize(); });
+  window.addEventListener('resize',()=>{ if($('#game').classList.contains('active')&&L) resize(); });
 
   return {
-    async start(){
+    async start(key='candles'){
+      stop(); load(key);
+      ['#win','#win2','#fail','#count'].forEach(s=>$(s).classList.remove('show','go'));
       $('#game').classList.add('active'); resize(); newRun(); last=performance.now(); raf=requestAnimationFrame(loop);
-      Snd.startMusic(true); await countdown();
+      Snd.startMusic(true);
+      if(key==='rescue') toast('Найди Илью в темноте! Подсказка: «тепло — холодно» вверху 🔦',3500);
+      await countdown();
     },
     stop,
-    _debug:{ win, get got(){return got;}, get pl(){return pos(pl);}, get state(){return state;}, get lives(){return lives;}, get fails(){return fails;}, setGot(n){ got=n; candles=new Set(candleStart.slice(n)); hud(); } }
+    _debug:{ winCandles, winRescue, get got(){return got;}, get pl(){return pl?pos(pl):null;}, get state(){return state;}, get lives(){return lives;}, get fails(){return fails;},
+      get ilya(){return ilya;}, setGot(n){ got=n; candles=new Set(candleStart.slice(n)); hud(); }, find(){ foundIlya(); } }
   };
 })();
 if(location.search.includes('debug')) window.__G=Game;
+
+/* =================== HEROES (level 2 intro) =================== */
+const heroes={ el:$('#heroes'), bubble:$('#bubble3') };
+async function heroSay(text,btn){
+  const b=heroes.bubble, p=b.querySelector('p'), k=b.querySelector('.btn');
+  b.classList.remove('show','has-btn'); await wait(150); p.textContent=text; b.classList.add('show');
+  k.textContent=btn; b.classList.add('has-btn');
+  await new Promise(res=>k.addEventListener('click',res,{once:true})); Snd.ping(2);
+}
+let heroesRunning=false;
+async function startRescueStory(){
+  if(heroesRunning) return; heroesRunning=true;
+  Snd.init(); Snd.stopMusic();
+  document.body.classList.add('flicker'); Snd.buzz(); await wait(500); Snd.buzz(); await wait(900);
+  document.body.classList.remove('flicker');
+  Snd.growl();
+  heroes.el.classList.add('active'); document.body.classList.add('locked');
+  await wait(60); heroes.el.classList.add('in');
+  await wait(900);
+  await heroSay('Настя!!! Беда! Демогоргоны утащили Илью в Изнанку! 😱','Что?!');
+  await heroSay('Он прячется где-то в темноте и дрожит от страха. Возьми фонарик, найди его и выведи к выходу! 🔦','Спасти Илью!');
+  heroes.el.classList.remove('in'); await wait(500); heroes.el.classList.remove('active');
+  $('#card').classList.remove('show');
+  heroesRunning=false;
+  Game.start('rescue');
+}
+$('#win2-back').addEventListener('click',()=>{
+  Game.stop(); $('#win2').classList.remove('show','go'); $('#game').classList.remove('active');
+  document.body.classList.remove('locked'); $('#card').classList.add('show');
+  $('#rescued').style.display='block'; $('#save-ilya').textContent='Спасти Илью ещё раз 🔦';
+  $('#finale').scrollIntoView({block:'center'}); Snd.birthday(); confetti();
+});
+$('#save-ilya').addEventListener('click',startRescueStory);
 
 /* =================== CARD =================== */
 function showCard(){
@@ -832,6 +1035,27 @@ const lb=$('#lightbox');
 document.querySelectorAll('.pol img,.gallery img,.ev-media img').forEach(im=>im.addEventListener('click',()=>{ lb.querySelector('img').src=im.src; lb.classList.add('show'); }));
 lb.addEventListener('click',()=>lb.classList.remove('show'));
 $('#replay').addEventListener('click',()=>location.reload());
+document.querySelectorAll('video').forEach(v=>v.addEventListener('play',()=>Snd.stopMusic()));
+
+// end of the card: lights flicker, the heroes come — Ilya has been taken
+if(store.get('nastya12-ilya')){ $('#rescued').style.display='block'; $('#save-ilya').textContent='Спасти Илью ещё раз 🔦'; }
+let storyArmed=!store.get('nastya12-ilya');
+new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting && storyArmed && $('#card').classList.contains('show')){
+    storyArmed=false; setTimeout(startRescueStory,2500);
+  }
+}),{threshold:.6}).observe($('#finale'));
+
+// Upside Down spores floating over the card
+(function sporesFx(){
+  const cv=$('#spores'), c=cv.getContext('2d'); let W,H; const P=[];
+  const size=()=>{ W=cv.width=innerWidth; H=cv.height=innerHeight; }; size(); addEventListener('resize',size);
+  for(let i=0;i<55;i++) P.push({x:Math.random(),y:Math.random(),r:Math.random()*1.8+.4,v:Math.random()*.00025+.00008,w:Math.random()*6,a:Math.random()*.45+.1});
+  (function f(t){ requestAnimationFrame(f); if(!$('#card').classList.contains('show')) return;
+    c.clearRect(0,0,W,H); c.fillStyle='#e9d9e0';
+    P.forEach(p=>{ p.y-=p.v*16; if(p.y<-.02){p.y=1.02;p.x=Math.random();} const x=(p.x+Math.sin(t/2000+p.w)*.01)*W;
+      c.globalAlpha=p.a; c.beginPath(); c.arc(x,p.y*H,p.r,0,7); c.fill(); }); c.globalAlpha=1; })(0);
+})();
 
 intro();
 })();
